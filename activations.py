@@ -1,7 +1,7 @@
 # Developed by MD-Nazmus Samin Sunbeam
 import numpy as np
 
-class activation(object):
+class Activation(object):
     def __init__(self):
         self.function = None
 
@@ -11,9 +11,9 @@ class activation(object):
     def derive(self, x):
         raise NotImplementedError
 
-class sigmoid(activation):
+class Sigmoid(Activation):
     def __init__(self):
-        super(sigmoid, self).__init__()
+        super(Sigmoid, self).__init__()
     
     def evaluate(self, x):
         self.function = 1.0 / (1.0 + np.exp(-x))
@@ -23,9 +23,9 @@ class sigmoid(activation):
         self.function = self.evaluate(x) * (1 - self.evaluate(x))
         return self.function
 
-class tanh(activation):
+class Tanh(Activation):
     def __init__(self):
-        super(tanh, self).__init__()
+        super(Tanh, self).__init__()
     
     def evaluate(self, x):
         self.function = np.tanh(x)
@@ -35,9 +35,9 @@ class tanh(activation):
         self.function = 1 - np.power(self.evaluate(x), 2)
         return self.function
 
-class relu(activation):
+class Relu(Activation):
     def __init__(self):
-        super(relu, self).__init__()
+        super(Relu, self).__init__()
 
     def evaluate(self, x):
         self.function = np.maximum(0, x)
@@ -47,9 +47,9 @@ class relu(activation):
         self.function = np.where(x > 0, 1, 0)
         return self.function
 
-class stable_softmax(activation): # will need to check this implementation
+class StableSoftmax(Activation): # will need to check this implementation
     def __init__(self):
-        super(stable_softmax, self).__init__()
+        super(StableSoftmax, self).__init__()
 
     def evaluate(self, x):
         self.function = np.exp(x - np.max(x)) / np.sum(np.exp(x), axis=0)
@@ -59,9 +59,9 @@ class stable_softmax(activation): # will need to check this implementation
         self.function = self.evaluate(x) * (1 - self.evaluate(x))
         return self.function
 
-class linear(activation):
+class Linear(Activation):
     def __init__(self):
-        super(linear, self).__init__()
+        super(Linear, self).__init__()
 
     def evaluate(self, x):
         self.function = x

@@ -1,6 +1,6 @@
 import numpy as np
 
-class loss(object):
+class Loss(object):
     def __init__(self):
         self.function = None
     
@@ -10,9 +10,9 @@ class loss(object):
     def backward(self, y, y_hat):
         raise NotImplementedError
 
-class mse(loss):
+class MSE(Loss):
     def __init__(self):
-        super(mse, self).__init__()
+        super(MSE, self).__init__()
 
     def forward(self, y, y_hat):
         self.function = np.mean(np.power(y - y_hat, 2))
@@ -22,9 +22,9 @@ class mse(loss):
         self.function = 2 * (y_hat - y) / y.size
         return self.function
 
-class cross_entropy(loss):
+class CrossEntropy(Loss):
     def __init__(self):
-        super(cross_entropy, self).__init__()
+        super(CrossEntropy, self).__init__()
 
     def forward(self, y, y_hat):
         self.function = -np.sum(y * np.log(y_hat))
@@ -34,9 +34,9 @@ class cross_entropy(loss):
         self.function = -y / y_hat
         return self.function
 
-class binary_cross_entropy(loss):
+class BinaryCrossEntropy(Loss):
     def __init__(self):
-        super(binary_cross_entropy, self).__init__()
+        super(BinaryCrossEntropy, self).__init__()
 
     def forward(self, y, y_hat):
         self.function = -np.sum(y * np.log(y_hat) + (1 - y) * np.log(1 - y_hat))
