@@ -1,6 +1,6 @@
 import numpy as np
 
-class optimizer(object):
+class Optimizer(object):
     def __init__(self, lr=3e-4, clip=-1.0, decay=0.0, lr_min = 0e0, lr_max=np.inf):
         self.lr = lr
         self.clip = clip
@@ -14,23 +14,23 @@ class optimizer(object):
         self.lr *= 1.0 / (1 + self.decay * self.iterations)
         self.lr = np.clip(self.lr, self.lr_min, self.lr_max)
 
-class sgd(optimizer): # might need to debug this implementation
+class SGD(Optimizer): # might need to debug this implementation
     def __init__(self, lr=3e-4, clip=-1.0, decay=0.0, lr_min = 0e0, lr_max=np.inf):
-        super(sgd, self).__init__(lr, clip, decay, lr_min, lr_max)
+        super(SGD, self).__init__(lr, clip, decay, lr_min, lr_max)
 
     def update(self, params, grads):
-        super(sgd, self).update(params, grads)
+        super(SGD, self).update(params, grads)
         for param, grad in zip(params, grads):
             param -= self.lr * grad
 
-class momentum(optimizer): # might need to debug this implementations
+class Momentum(Optimizer): # might need to debug this implementations
     def __init__(self, lr=3e-4, clip=-1.0, decay=0.0, lr_min = 0e0, lr_max=np.inf, beta=0.9):
-        super(momentum, self).__init__(lr, clip, decay, lr_min, lr_max)
+        super(Momentum, self).__init__(lr, clip, decay, lr_min, lr_max)
         self.beta = beta
         self.v = None
 
     def update(self, params, grads):
-        super(momentum, self).update(params, grads)
+        super(Momentum, self).update(params, grads)
         if self.v is None:
             self.v = []
             for param in params:
@@ -39,9 +39,9 @@ class momentum(optimizer): # might need to debug this implementations
             self.v[i] = self.beta * self.v[i] + (1 - self.beta) * grad
             param -= self.lr * self.v[i]
 
-class adam(optimizer): # might need to debug this implementation
+class ADAM(Optimizer): # might need to debug this implementation
     def __init__(self, lr=3e-4, clip=-1.0, decay=0.0, lr_min = 0e0, lr_max=np.inf, beta_1=0.9, beta_2=0.999, epsilon=1e-8):
-        super(adam, self).__init__(lr, clip, decay, lr_min, lr_max)
+        super(ADAM, self).__init__(lr, clip, decay, lr_min, lr_max)
         self.beta_1 = beta_1
         self.beta_2 = beta_2
         self.epsilon = epsilon
@@ -49,7 +49,7 @@ class adam(optimizer): # might need to debug this implementation
         self.v = None
 
     def update(self, params, grads):
-        super(adam, self).update(params, grads)
+        super(ADAM, self).update(params, grads)
         if self.m is None:
             self.m = []
             self.v = []
